@@ -1,24 +1,47 @@
+import Image from 'next/image';
+import { FaFacebookF, FaInstagram, FaEnvelope } from 'react-icons/fa';
+
 export default function Footer() {
-    return (
-      <footer className="bg-gradient-to-r from-blue-700 to-yellow-500 text-white py-10 px-6 mt-0">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-sm text-center md:text-left">
-            © {new Date().getFullYear()} PROTECSA – Facultad de Ciencias, UNAM. Todos los derechos reservados.
-          </p>
-  
-          <div className="flex space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              Facebook
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              Instagram
-            </a>
-            <a href="mailto:protecsa@ciencias.unam.mx" className="hover:underline">
-              Correo
-            </a>
-          </div>
+  return (
+    <footer
+    className="animate-gradient-flow sticky top-0 z-50 text-white py-5 px-6 md:px-12 flex items-center justify-between backdrop-blur shadow-md"
+
+      style={{
+        backgroundImage: `linear-gradient(to right, #003ce5, #4959ff, #E4B045, #E4B045, #003ce5)`,
+      }}
+    >
+      <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        
+        {/* Logo + nombre */}
+        <div className="flex items-center space-x-3">
+          <Image
+            src="/logo_blan.png"
+            alt="Logo PROTECSA"
+            width={45}
+            height={45}
+            className="object-contain"
+          />
+          <span className="text-lg font-bold">PROTECSA</span>
         </div>
-      </footer>
-    );
-  }
-  
+
+        {/* Texto legal */}
+        <p className="text-sm text-center md:text-left">
+          © 2025 PROTECSA – Facultad de Ciencias, UNAM. Todos los derechos reservados.
+        </p>
+
+        {/* Íconos sociales */}
+        <div className="flex space-x-4 text-2xl">
+          <a href="https://www.facebook.com/proteco" target="_blank" className="hover:text-yellow-300 transition">
+            <FaFacebookF />
+          </a>
+          <a href="https://www.instagram.com/protecsaunam/" target="_blank" className="hover:text-yellow-300 transition">
+            <FaInstagram />
+          </a>
+          <a href="mailto:contacto@proteksa.mx" className="hover:text-yellow-300 transition">
+            <FaEnvelope />
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
