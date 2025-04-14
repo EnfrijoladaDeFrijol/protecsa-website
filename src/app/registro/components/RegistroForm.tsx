@@ -11,8 +11,8 @@ export default function RegistroForm() {
         <Image
           src="/logo_P.png"
           alt="Logo PROTECSA"
-          width={70}
-          height={70}
+          width={80}
+          height={80}
           className="mb-2"
         />
       </div>
