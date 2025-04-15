@@ -10,7 +10,7 @@ export default function Hero() {
       <h1
         className="text-5xl md:text-5xl font-bold text-blue-800 mb-4"
         data-aos="fade-up"
-        data-aos-delay="100"
+        data-aos-delay="10"
       >
         Bienvenido a <span className="text-yellow-500">PROTECSA</span>
       </h1>

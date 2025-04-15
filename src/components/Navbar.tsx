@@ -36,7 +36,7 @@ export default function Navbar() {
       </Link>
 
       {/* NAV LINKS (desktop) */}
-      <ul className="hidden md:flex space-x-4 font-medium ml-8">
+      <ul className="hidden md:flex space-x-6 font-medium ml-8">
         {[
           { name: 'Inicio', href: '/' },
           { name: 'Cursos', href: '/cursos' },
