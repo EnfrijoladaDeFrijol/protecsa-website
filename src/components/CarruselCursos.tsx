@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { useRef } from 'react';
+import Link from 'next/link';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -74,12 +75,12 @@ export default function CarruselCursos() {
                       {curso.descripcion}
                     </p>
                   </div>
-                  <a
+                  <Link
                     href={`/cursos/${curso.slug}`}
                     className="mt-4 inline-block px-5 py-2 bg-[#003ce5] text-white rounded-full hover:bg-[#4959ff] transition font-medium text-sm w-fit"
                   >
                     Ver más
-                  </a>
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>

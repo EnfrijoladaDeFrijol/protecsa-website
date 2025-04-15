@@ -122,7 +122,7 @@ export const cursos: Curso[] = [
     imagen: "/cursos/leo.jpg",
     duracion: "1 semana intensiva",
     modalidad: "Presencial",
-    calificacion: 5,
+    calificacion: 4.6,
     precio: 1500,
     temario: [
       {
@@ -160,10 +160,11 @@ export const cursos: Curso[] = [
     ],
     opiniones: [
       { nombre: "LeoSigma", comentario: "El curso es tan intenso como efectivo. Si no te aúllan, lo estás haciendo mal. 🐺🔥", estrellas: 5 },
-      { nombre: "Dani", comentario: "Nunca más volví a ser la misma. Ahora soy la *alfa alfa* de mi círculo. 💋", estrellas: 5 },
+      { nombre: "Jimena", comentario: "Nunca más volví a ser la misma. Ahora soy la *alfa alfa* de mi círculo. 💋", estrellas: 5 },
       { nombre: "Carla", comentario: "Conquisté a mi crush en menos de 48 horas. Increíble. Leo es un dios.", estrellas: 5 },
       { nombre: "Fer", comentario: "Pasé de modo sigilosa a modo loba competitiva en 7 días. RECOMENDADÍSIMO.", estrellas: 5 },
-      { nombre: "Lau", comentario: "Esto no es un curso. Es una transformación. 💄🔥", estrellas: 5 }
+      { nombre: "Buenas Tardes", comentario: "Esto no es un curso. Es una transformación. 💄🔥", estrellas: 5 },
+      { nombre: "Ingeniero Antonio", comentario: "Leo me lastimó en el proceso, no me gustó", estrellas: 3 }
     ]
   }  
 ];
