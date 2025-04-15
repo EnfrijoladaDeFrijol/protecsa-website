@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import AOSInit from '@/components/AOSInit'; 
-import AuthProvider from '@/components/AuthProvider';
 //import { SessionProvider } from 'next-auth/react'; // Para el incio de seison
 
 // Configuración de fuentes
@@ -42,10 +41,8 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AuthProvider> 
           <AOSInit />
           {children}
-        </AuthProvider>
       </body>
     </html>
   );

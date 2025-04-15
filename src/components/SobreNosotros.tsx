@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-const fondos = ['/FC1.jpg', '/UNAM1.jpg', '/fC2.jpg', '/UNAM2.jpg'];
+const fondos = ['/FC1.jpg', '/UNAM1.jpg', '/FC2.jpg', '/UNAM2.jpg'];
 
 export default function SobreNosotros() {
   const [index, setIndex] = useState(0);

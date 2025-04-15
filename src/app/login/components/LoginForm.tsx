@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
@@ -12,17 +11,13 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (result?.ok) {
-      router.push('/'); // redirige al inicio
+    // Simulación de autenticación (puedes conectar a tu base de datos aquí)
+    if (email === 'arthur@protecsa.com' && password === '123') {
+      // Aquí podrías guardar algo en localStorage o cookies si lo deseas
+      router.push('/');
     } else {
       setErrorMsg('Correo o contraseña incorrectos');
     }

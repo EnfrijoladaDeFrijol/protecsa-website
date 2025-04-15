@@ -3,16 +3,28 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { FaUserCircle, FaShoppingCart, FaSignOutAlt } from 'react-icons/fa';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
   const [showMenu, setShowMenu] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  // Cierra el menú si se hace clic fuera del dropdown
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        setUserName(parsed.name || parsed.email || 'Usuario');
+      } catch {
+        setUserName('Usuario');
+      }
+    }
+  }, []);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -20,10 +32,14 @@ export default function Navbar() {
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUserName(null);
+    router.push('/');
+  };
 
   return (
     <nav
@@ -35,18 +51,12 @@ export default function Navbar() {
       {/* LOGO */}
       <Link href="/">
         <div className="flex items-center space-x-3 cursor-pointer">
-          <Image
-            src="/logo_blan.png"
-            alt="Logo PROTECSA"
-            width={65}
-            height={65}
-            className="object-contain"
-          />
+          <Image src="/logo_blan.png" alt="Logo PROTECSA" width={65} height={65} className="object-contain" />
           <span className="text-xl font-bold tracking-wide">PROTECSA</span>
         </div>
       </Link>
 
-      {/* NAV LINKS (desktop) */}
+      {/* NAV LINKS */}
       <ul className="hidden md:flex space-x-6 font-medium ml-8">
         {[
           { name: 'Inicio', href: '/' },
@@ -55,26 +65,26 @@ export default function Navbar() {
           { name: 'Contacto', href: '/contacto' },
         ].map((item) => (
           <li key={item.name}>
-            <a
+            <Link
               href={item.href}
               className="text-lg px-4 py-2 rounded-full hover:bg-white hover:text-blue-800 hover:scale-105 transition duration-300"
             >
               {item.name}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
 
-      {/* SESIÓN ACTIVA / INACTIVA (desktop) */}
+      {/* SESIÓN - DESKTOP */}
       <div className="hidden md:flex items-center space-x-4 relative">
-        {session ? (
+        {userName ? (
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowMenu(!showMenu)}
               className="flex items-center gap-2 hover:scale-105 transition text-white text-lg font-semibold"
             >
               <FaUserCircle className="text-3xl" />
-              <span>{session.user?.name?.split(' ')[0]}</span>
+              <span>{userName}</span>
             </button>
 
             {showMenu && (
@@ -86,10 +96,7 @@ export default function Navbar() {
                   <FaShoppingCart /> Mi carrito
                 </Link>
                 <button
-                  onClick={() => {
-                    setShowMenu(false);
-                    signOut();
-                  }}
+                  onClick={handleLogout}
                   className="flex items-center gap-2 w-full text-left px-4 py-3 text-gray-800 hover:bg-gray-100 text-sm transition"
                 >
                   <FaSignOutAlt /> Cerrar sesión
@@ -99,23 +106,17 @@ export default function Navbar() {
           </div>
         ) : (
           <>
-            <a
-              href="/login"
-              className="px-6 py-2 rounded-full border border-white text-white hover:bg-white hover:text-blue-800 hover:scale-105 transition"
-            >
+            <Link href="/login" className="px-6 py-2 rounded-full border border-white text-white hover:bg-white hover:text-blue-800 hover:scale-105 transition">
               Iniciar sesión
-            </a>
-            <a
-              href="/registro"
-              className="px-6 py-2 rounded-full bg-white text-blue-800 hover:bg-yellow-400 hover:text-white hover:scale-105 transition"
-            >
+            </Link>
+            <Link href="/registro" className="px-6 py-2 rounded-full bg-white text-blue-800 hover:bg-yellow-400 hover:text-white hover:scale-105 transition">
               Registrarse
-            </a>
+            </Link>
           </>
         )}
       </div>
 
-      {/* BOTÓN HAMBURGUESA (móvil) */}
+      {/* BOTÓN HAMBURGUESA */}
       <button
         className="md:hidden"
         onClick={() => setIsOpen(!isOpen)}
@@ -146,32 +147,32 @@ export default function Navbar() {
           { name: 'Misión', href: '/mision' },
           { name: 'Contacto', href: '/contacto' },
         ].map((item) => (
-          <a
+          <Link
             key={item.name}
             href={item.href}
             className="text-xl font-medium hover:text-yellow-300 transition"
             onClick={() => setIsOpen(false)}
           >
             {item.name}
-          </a>
+          </Link>
         ))}
 
         <hr className="w-3/4 border-t border-white/30 my-6" />
 
-        {session ? (
+        {userName ? (
           <div className="flex flex-col items-center space-y-3">
-            <span className="text-lg font-semibold">{session.user?.name || session.user?.email}</span>
-            <a
+            <span className="text-lg font-semibold">{userName}</span>
+            <Link
               href="/carrito"
               className="px-6 py-2 rounded-full bg-white text-blue-800 hover:bg-blue-800 hover:text-white transition"
               onClick={() => setIsOpen(false)}
             >
               Mi carrito
-            </a>
+            </Link>
             <button
               onClick={() => {
                 setIsOpen(false);
-                signOut({ callbackUrl: '/' });
+                handleLogout();
               }}
               className="px-6 py-2 rounded-full border border-white text-white hover:bg-white hover:text-blue-800 transition"
             >
@@ -180,20 +181,20 @@ export default function Navbar() {
           </div>
         ) : (
           <div className="flex flex-col items-center space-y-3">
-            <a
+            <Link
               href="/login"
               className="px-5 py-2 rounded-full border border-white text-white hover:bg-white hover:text-blue-800 transition"
               onClick={() => setIsOpen(false)}
             >
               Iniciar sesión
-            </a>
-            <a
+            </Link>
+            <Link
               href="/registro"
               className="px-6 py-2 rounded-full bg-white text-blue-800 hover:bg-yellow-400 hover:text-white transition font-semibold"
               onClick={() => setIsOpen(false)}
             >
               Registrarse
-            </a>
+            </Link>
           </div>
         )}
       </div>
