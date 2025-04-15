@@ -1,12 +1,36 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const result = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.ok) {
+      router.push('/'); // redirige al inicio
+    } else {
+      setErrorMsg('Correo o contraseña incorrectos');
+    }
+  };
+
   return (
     <div className="bg-white/80 border border-white/30 p-10 rounded-3xl shadow-2xl max-w-md w-full space-y-6 transition-all duration-500 ease-in-out text-center">
-      {/* LOGO PROTECSA */}
+      {/* Logo */}
       <div className="flex justify-center">
         <Image
           src="/logo_P.png"
@@ -17,27 +41,36 @@ export default function LoginForm() {
         />
       </div>
 
-      {/* Título */}
       <h2 className="text-3xl font-extrabold text-[#003ce5] tracking-wide drop-shadow-sm">
         Iniciar Sesión
       </h2>
 
+      {/* Error */}
+      {errorMsg && (
+        <div className="text-sm text-red-600 bg-red-100 px-4 py-2 rounded-md shadow-sm">
+          {errorMsg}
+        </div>
+      )}
+
       {/* Formulario */}
-      <form className="flex flex-col space-y-4">
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <input
           type="email"
           placeholder="Correo electrónico"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="px-4 py-3 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm hover:shadow-md transition"
           required
         />
         <input
           type="password"
           placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="px-4 py-3 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm hover:shadow-md transition"
           required
         />
 
-        {/*   dsfsadfasdfBotón animado */}
         <button
           type="submit"
           className="relative bg-gradient-to-r from-[#4959ff] via-[#4a9ae9] to-[#318ce7] bg-[length:200%_200%] animate-gradient-cycle text-white font-semibold py-3 rounded-full shadow-md hover:scale-105 transition-all"
