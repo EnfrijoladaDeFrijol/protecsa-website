@@ -1,6 +1,6 @@
 'use client';
 
-import cursos from '@/app/cursos/cursos';
+import { cursos } from '@/app/cursos/courseData';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -75,7 +75,7 @@ export default function CarruselCursos() {
                     </p>
                   </div>
                   <a
-                    href="/cursos"
+                    href={`/cursos/${curso.slug}`}
                     className="mt-4 inline-block px-5 py-2 bg-[#003ce5] text-white rounded-full hover:bg-[#4959ff] transition font-medium text-sm w-fit"
                   >
                     Ver más
