@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface CursoProps {
   slug: string;
@@ -12,7 +13,13 @@ interface CursoProps {
 export default function CursoCard({ slug, titulo, descripcion, imagen }: CursoProps) {
   return (
     <div className="bg-white shadow-lg rounded-xl overflow-hidden hover:scale-105 hover:shadow-xl transition-all duration-300">
-      <img src={imagen} alt={titulo} className="w-full h-44 object-cover" />
+      <Image
+        src={imagen}
+        alt={titulo}
+        width={400}
+        height={176}
+        className="w-full h-44 object-cover"
+      />
       <div className="p-6">
         <h3 className="text-xl font-bold text-[#003ce5]">{titulo}</h3>
         <p className="mt-2 text-gray-600">{descripcion}</p>

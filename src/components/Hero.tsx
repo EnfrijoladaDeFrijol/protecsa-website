@@ -1,3 +1,7 @@
+'use client';
+
+import Link from 'next/link';
+
 export default function Hero() {
   return (
     <section
@@ -28,19 +32,18 @@ export default function Hero() {
         data-aos="fade-up"
         data-aos-delay="300"
       >
-        <a
+        <Link
           href="/cursos"
           className="text-xl px-8 py-4 rounded-full text-white bg-gradient-to-r from-[#4a9ae9] via-[#4959ff] to-[#003ce5] bg-[length:200%_200%] animate-gradient-x shadow-lg hover:scale-105 hover:-translate-y-1 transition duration-300 ease-in-out"
-
         >
           Ver cursos
-        </a>
-        <a
+        </Link>
+        <Link
           href="/contacto"
           className="text-xl px-8 py-4 rounded-full border border-blue-600 text-blue-600 hover:bg-blue-100 hover:scale-105 hover:shadow-md hover:-translate-y-1 transform transition duration-300 ease-in-out animate-pulse"
         >
           Contáctanos
-        </a>
+        </Link>
       </div>
     </section>
   );
