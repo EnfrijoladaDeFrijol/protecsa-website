@@ -1,11 +1,11 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { FaFacebookF, FaInstagram, FaEnvelope } from 'react-icons/fa';
 
 export default function Footer() {
   return (
     <footer
-    className="animate-gradient-flow sticky top-0 z-50 text-white py-5 px-6 md:px-12 flex items-center justify-between backdrop-blur shadow-md"
-
+      className="animate-gradient-flow text-white py-5 px-6 md:px-12 flex items-center justify-between backdrop-blur shadow-md"
       style={{
         backgroundImage: `linear-gradient(to right, #003ce5, #4959ff, #E4B045, #E4B045, #003ce5)`,
       }}
@@ -13,16 +13,18 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
         
         {/* Logo + nombre */}
-        <div className="flex items-center space-x-3">
-          <Image
-            src="/logo_blan.png"
-            alt="Logo PROTECSA"
-            width={45}
-            height={45}
-            className="object-contain"
-          />
-          <span className="text-lg font-bold">PROTECSA</span>
-        </div>
+        <Link href="/">
+          <div className="flex items-center space-x-3 cursor-pointer">
+            <Image
+              src="/logo_blan.png"
+              alt="Logo PROTECSA"
+              width={45}
+              height={45}
+              className="object-contain"
+            />
+            <span className="text-lg font-bold">PROTECSA</span>
+          </div>
+        </Link>
 
         {/* Texto legal */}
         <p className="text-sm text-center md:text-left">

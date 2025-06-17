@@ -5,7 +5,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import CarruselCursos from './components/CarruselCursos';
 
 export default function CursosPage() {
@@ -28,8 +27,6 @@ export default function CursosPage() {
         {/* Carrusel de cursos individuales en tarjetas animadas */}
         <CarruselCursos />
       </section>
-
-      <Footer />
     </>
   );
 }
