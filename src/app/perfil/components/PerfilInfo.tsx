@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { HiClipboard, HiCheck } from 'react-icons/hi';
 import { UserCircle } from 'lucide-react';
 
+
 type Usuario = {
   id: string;
   nombre: string;
@@ -33,7 +34,7 @@ export default function PerfilInfo() {
   if (!user) return null;
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto rounded-xl shadow-lg mb-12 bg-white px-4 py-16 overflow-hidden flex flex-col items-center text-center space-y-4">
+    <div className="relative w-full max-w-5xl mx-auto rounded-xl bg-white/60 backdrop-blur-md shadow-lg mb-12 px-6 py-20 overflow-hidden flex flex-col items-center text-center space-y-4 transition-all duration-500 ease-out">
       {/* Círculos estáticos decorativos tipo float */}
       <div className="absolute w-[350px] h-[350px] bg-[#E4B045] rounded-full opacity-20 animate-float1" style={{ top: '-100px', left: '-120px' }} />
       <div className="absolute w-[400px] h-[400px] bg-[#003ce5] rounded-full opacity-20 animate-float2" style={{ top: '10%', right: '-180px' }} />
@@ -42,7 +43,7 @@ export default function PerfilInfo() {
       {/* Contenido visible */}
       <div className="relative z-10 flex flex-col items-center space-y-4">
         <UserCircle className="w-28 h-28 text-[#003ce5]" />
-        <h2 className="text-4xl font-bold text-[#000000]">{user.nombre} {user.apellido}</h2>
+        <h2 className="text-5xl font-bold text-[#000000]">{user.nombre} {user.apellido}</h2>
 
         <div className="flex items-center gap-2 text-gray-600 text-sm break-all">
           <span>{user.id}</span>

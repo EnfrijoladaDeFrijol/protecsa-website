@@ -2,32 +2,41 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 
 export default function RegistroForm() {
+  const router = useRouter();
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [mensaje, setMensaje] = useState('');
-  const [show, setShow] = useState(false);
+  const [tipoMensaje, setTipoMensaje] = useState<'error' | 'exito' | ''>('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (password.length < 4) {
+      setMensaje('La contraseña debe tener al menos 4 caracteres.');
+      setTipoMensaje('error');
+      return;
+    }
+
     if (password !== confirmPassword) {
-      setMensaje('❌ Las contraseñas no coinciden.');
+      setMensaje('Las contraseñas no coinciden.');
+      setTipoMensaje('error');
       return;
     }
 
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nombre, apellido, email, password }),
       });
 
@@ -38,18 +47,15 @@ export default function RegistroForm() {
           : null;
 
       if (res.ok) {
-        setMensaje('✅ Código de verificación enviado a tu correo.');
-        setNombre('');
-        setApellido('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
+        router.push(`/verifica/enviado?email=${encodeURIComponent(email)}`);
       } else {
-        setMensaje(`❌ ${data?.error || 'Error al registrar'}`);
+        setMensaje(data?.error || 'Error al registrar');
+        setTipoMensaje('error');
       }
     } catch (error) {
       console.error('Error inesperado:', error);
-      setMensaje('❌ Error inesperado');
+      setMensaje('Error inesperado');
+      setTipoMensaje('error');
     }
   };
 
@@ -91,10 +97,9 @@ export default function RegistroForm() {
           className="px-4 py-3 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm"
         />
 
-        {/* Campo de contraseña con ojito */}
         <div className="relative">
           <input
-            type={show ? 'text' : 'password'}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -102,22 +107,31 @@ export default function RegistroForm() {
           />
           <button
             type="button"
-            onClick={() => setShow(!show)}
+            onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-700"
-            aria-label="Toggle password visibility"
+            aria-label="Mostrar u ocultar contraseña"
           >
-            {show ? <HiEyeOff /> : <HiEye />}
+            {showPassword ? <HiEyeOff /> : <HiEye />}
           </button>
         </div>
 
-        {/* Confirmar contraseña */}
-        <input
-          type={show ? 'text' : 'password'}
-          placeholder="Confirmar contraseña"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="px-4 py-3 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm"
-        />
+        <div className="relative">
+          <input
+            type={showConfirmPassword ? 'text' : 'password'}
+            placeholder="Confirmar contraseña"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full px-4 py-3 pr-12 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm"
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-700"
+            aria-label="Mostrar u ocultar confirmación"
+          >
+            {showConfirmPassword ? <HiEyeOff /> : <HiEye />}
+          </button>
+        </div>
 
         <button
           type="submit"
@@ -127,7 +141,17 @@ export default function RegistroForm() {
         </button>
       </form>
 
-      {mensaje && <p className="text-sm text-center text-[#003ce5]">{mensaje}</p>}
+      {mensaje && (
+        <p
+          className={`text-sm text-center mt-4 p-3 rounded-md font-medium border w-full ${
+            tipoMensaje === 'error'
+              ? 'bg-red-50 text-red-700 border-red-200'
+              : 'bg-green-50 text-green-700 border-green-200'
+          }`}
+        >
+          {mensaje}
+        </p>
+      )}
 
       <div className="pt-3">
         <p className="text-sm text-gray-700">
