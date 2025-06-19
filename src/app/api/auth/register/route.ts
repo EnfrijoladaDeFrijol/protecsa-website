@@ -65,14 +65,14 @@ export async function POST(req: Request) {
             <div style="text-align: center; margin-bottom: 20px;">
               <img src="https://protecsaa.com/logo_P.png" alt="PROTECSA Logo" style="height: 64px;" />
             </div>
-            <h2 style="text-align: center; color: #003ce5; font-size: 24px; margin-bottom: 18px;">Confirma tu cuenta</h2>
-            <p style="font-size: 17px; color: #333; text-align: center; margin: 0 0 12px;">
+            <h2 style="text-align: center; color: #003ce5; font-size: 30px; margin-bottom: 18px;">Confirma tu cuenta</h2>
+            <p style="font-size: 17px; color: #333; text-align: center; margin: 0 0 14px;">
               Hola <strong>${nombre} ${apellido}</strong>, gracias por registrarte en <strong>PROTECSA</strong>.
             </p>
             <p style="font-size: 15px; color: #444; text-align: center;">
               Haz clic en el siguiente botón para activar tu cuenta:
             </p>
-            <div style="text-align: center; margin: 30px 0;">
+            <div style="text-align: center; margin: 34px 0;">
               <a href="${verifyLink}" style="
                 background-color: #003ce5;
                 color: white;
@@ -90,13 +90,13 @@ export async function POST(req: Request) {
             </p>
               <div style="text-align: center; margin-top: 30px;">
                 <a href="https://www.facebook.com/proteco" style="margin: 0 10px;">
-                  <img src="https://protecsaa.com/icon/fb.png" alt="Facebook" width="24" height="24" />
+                  <img src="https://protecsaa.com/icon/fb.png" alt="Facebook" width="35" height="35" />
                 </a>
                 <a href="https://www.instagram.com/protecsaunam/" style="margin: 0 10px;">
-                  <img src="https://protecsaa.com/icon/ig.png" alt="Instagram" width="24" height="24" />
+                  <img src="https://protecsaa.com/icon/ig.png" alt="Instagram" width="35" height="35" />
                 </a>
                 <a href="mailto:contacto@protecsaa.com" style="margin: 0 10px;">
-                  <img src="https://protecsaa.com/icon/mail.png" alt="Email" width="24" height="24" />
+                  <img src="https://protecsaa.com/icon/mail.png" alt="Email" width="35" height="35" />
                 </a>
               </div>
             <p style="font-size: 12px; color: #aaa; text-align: center; margin-top: 20px;">
