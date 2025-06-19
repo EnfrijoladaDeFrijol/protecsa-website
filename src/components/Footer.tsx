@@ -39,7 +39,7 @@ export default function Footer() {
           <a href="https://www.instagram.com/protecsaunam/" target="_blank" className="hover:text-yellow-300 transition">
             <FaInstagram />
           </a>
-          <a href="mailto:contacto@protecsa.mx" className="hover:text-yellow-300 transition">
+          <a href="mailto:contacto@protecsaa.com" className="hover:text-yellow-300 transition">
             <FaEnvelope />
           </a>
         </div>

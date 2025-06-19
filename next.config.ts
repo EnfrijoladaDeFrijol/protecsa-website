@@ -5,3 +5,12 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+
+// Verficacion de email, resend api
+module.exports = {
+  env: {
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    APP_URL: process.env.APP_URL,
+  },
+};
