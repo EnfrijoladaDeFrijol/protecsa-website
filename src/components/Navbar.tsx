@@ -18,7 +18,9 @@ export default function Navbar() {
     if (storedUser) {
       try {
         const parsed = JSON.parse(storedUser);
-        setUserName(parsed.name || parsed.email || 'Usuario');
+        // ✅ Mostramos nombre completo si existe
+        const fullName = `${parsed.nombre || ''} ${parsed.apellido || ''}`.trim();
+        setUserName(fullName || parsed.email || 'Usuario');
       } catch {
         setUserName('Usuario');
       }

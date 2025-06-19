@@ -11,15 +11,32 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
 
-    // Simulación de autenticación (puedes conectar a tu base de datos aquí)
-    if (email === 'arthur@protecsa.com' && password === '123') {
-      // Aquí podrías guardar algo en localStorage o cookies si lo deseas
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrorMsg(data.error || 'Error al iniciar sesión');
+        return;
+      }
+
+      // ✅ Guardar en localStorage
+      localStorage.setItem('user', JSON.stringify(data.user));
+      console.log('✅ Usuario guardado en localStorage:', data.user);
+
       router.push('/');
-    } else {
-      setErrorMsg('Correo o contraseña incorrectos');
+    } catch (error) {
+      setErrorMsg('Error del servidor. Intenta más tarde.');
+      console.error('Login error:', error);
     }
   };
 
