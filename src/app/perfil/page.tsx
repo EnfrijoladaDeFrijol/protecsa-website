@@ -3,6 +3,7 @@
 import Navbar from '@/components/Navbar';
 import PerfilForm from './components/PerfilForm';
 import CambiarPasswordForm from './components/CambiarPasswordForm';
+import PerfilInfo from './components/PerfilInfo';
 
 export default function PerfilPage() {
   return (
@@ -18,6 +19,9 @@ export default function PerfilPage() {
         {/* Contenido principal */}
         <div className="w-full max-w-5xl backdrop-blur-md bg-white/60 p-10 rounded-xl shadow-md z-10">
 
+          
+          <PerfilInfo />
+          <div className="border-t border-blue-200 my-10" />
           <PerfilForm />
           <div className="border-t border-blue-200 my-10" />
           <CambiarPasswordForm />

@@ -179,3 +179,9 @@ body {
 .animation-delay-4000 {
   animation-delay: 4s;
 }
+
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 12s ease infinite;
+}
