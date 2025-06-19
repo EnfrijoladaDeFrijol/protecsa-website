@@ -4,11 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
 
 export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +31,6 @@ export default function LoginForm() {
         return;
       }
 
-      // ✅ Guardar en localStorage
       localStorage.setItem('user', JSON.stringify(data.user));
       console.log('✅ Usuario guardado en localStorage:', data.user);
 
@@ -41,8 +42,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="bg-white/80 border border-white/30 p-10 rounded-3xl shadow-2xl max-w-md w-full space-y-6 transition-all duration-500 ease-in-out text-center">
-      {/* Logo */}
+    <div className="bg-white/80 border border-white/30 p-10 rounded-3xl shadow-2xl max-w-md w-full space-y-6 text-center">
       <div className="flex justify-center">
         <Image
           src="/logo_P.png"
@@ -53,18 +53,14 @@ export default function LoginForm() {
         />
       </div>
 
-      <h2 className="text-3xl font-extrabold text-[#003ce5] tracking-wide drop-shadow-sm">
-        Iniciar Sesión
-      </h2>
+      <h2 className="text-3xl font-extrabold text-[#003ce5] tracking-wide">Iniciar Sesión</h2>
 
-      {/* Error */}
       {errorMsg && (
         <div className="text-sm text-red-600 bg-red-100 px-4 py-2 rounded-md shadow-sm">
           {errorMsg}
         </div>
       )}
 
-      {/* Formulario */}
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <input
           type="email"
@@ -74,14 +70,25 @@ export default function LoginForm() {
           className="px-4 py-3 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm hover:shadow-md transition"
           required
         />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="px-4 py-3 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm hover:shadow-md transition"
-          required
-        />
+
+        <div className="relative">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 pr-12 rounded-xl bg-[#f0f4ff] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4959ff] border border-[#003ce5]/30 shadow-sm hover:shadow-md transition"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-700"
+            aria-label="Toggle password visibility"
+          >
+            {showPassword ? <HiEyeOff /> : <HiEye />}
+          </button>
+        </div>
 
         <button
           type="submit"
@@ -91,7 +98,6 @@ export default function LoginForm() {
         </button>
       </form>
 
-      {/* Registro */}
       <p className="text-sm text-gray-800">
         ¿Aún no tienes cuenta?{' '}
         <Link
@@ -102,7 +108,6 @@ export default function LoginForm() {
         </Link>
       </p>
 
-      {/* Volver al inicio */}
       <div className="pt-2">
         <Link
           href="/"

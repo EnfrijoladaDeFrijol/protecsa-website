@@ -1,0 +1,111 @@
+'use client';
+
+import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
+
+export default function CambiarPasswordForm() {
+  const [password, setPassword] = useState('');
+  const [confirmar, setConfirmar] = useState('');
+  const [show, setShow] = useState(false);
+  const [mensaje, setMensaje] = useState('');
+  const [tipo, setTipo] = useState<'error' | 'ok' | ''>('');
+
+  const handleCambiarContrasena = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMensaje('');
+    setTipo('');
+
+    if (!password || password.length < 6) {
+      setMensaje('La contraseña debe tener al menos 6 caracteres.');
+      setTipo('error');
+      return;
+    }
+
+    if (password !== confirmar) {
+      setMensaje('Las contraseñas no coinciden.');
+      setTipo('error');
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) {
+      console.error('❌ Error al cambiar contraseña:', error.message);
+      setMensaje('Error al cambiar contraseña.');
+      setTipo('error');
+    } else {
+      setMensaje('Contraseña actualizada correctamente.');
+      setTipo('ok');
+      setPassword('');
+      setConfirmar('');
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleCambiarContrasena}
+      className="space-y-6 mt-12 bg-white shadow rounded-xl p-6"
+    >
+      <h2 className="text-2xl font-bold text-[#003ce5] mb-2">Cambiar Contraseña</h2>
+
+      {mensaje && (
+        <div
+          className={text-sm font-medium p-3 rounded-md border ${
+            tipo === 'ok'
+              ? 'bg-green-50 text-green-700 border-green-300'
+              : 'bg-red-50 text-red-700 border-red-300'
+          }}
+        >
+          {tipo === 'ok' ? '✅' : '❌'} {mensaje}
+        </div>
+      )}
+
+      {/* Nueva contraseña */}
+      <div className="relative">
+        <label className="block text-sm font-medium text-gray-800 mb-1">
+          Nueva contraseña
+        </label>
+        <input
+          type={show ? 'text' : 'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 pr-12 focus:outline-none focus:ring-2 focus:ring-[#003ce5]"
+          placeholder="Mínimo 6 caracteres"
+          required
+        />
+        <button
+          type="button"
+          onClick={() => setShow(!show)}
+          className="absolute right-3 top-[38px] text-xl text-gray-500 hover:text-gray-700"
+          aria-label="Toggle password visibility"
+        >
+          {show ? <HiEyeOff /> : <HiEye />}
+        </button>
+      </div>
+
+      {/* Confirmar contraseña */}
+      <div>
+        <label className="block text-sm font-medium text-gray-800 mb-1">
+          Confirmar contraseña
+        </label>
+        <input
+          type={show ? 'text' : 'password'}
+          value={confirmar}
+          onChange={(e) => setConfirmar(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#003ce5]"
+          required
+        />
+      </div>
+
+      {/* Botón */}
+      <button
+        type="submit"
+        className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-full shadow-md transition disabled:opacity-50"
+        disabled={!password || password !== confirmar}
+      >
+        Actualizar contraseña
+      </button>
+    </form>
+  );
+}

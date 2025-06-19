@@ -171,3 +171,11 @@ body {
   animation: gradient-cycle 5s ease infinite;
 }
 
+/* src/app/globals.css o src/styles/globals.css */
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}

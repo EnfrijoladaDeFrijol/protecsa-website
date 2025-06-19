@@ -88,17 +88,17 @@ export async function POST(req: Request) {
             <p style="font-size: 13px; color: #777; text-align: center;">
               Si no solicitaste esta cuenta, puedes ignorar este mensaje.
             </p>
-            <div style="text-align: center; margin-top: 30px;">
-              <a href="https://www.facebook.com/proteco" style="margin: 0 10px;">
-                <img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" alt="Facebook" width="24" height="24" />
-              </a>
-              <a href="https://www.instagram.com/protecsaunam/" style="margin: 0 10px;">
-                <img src="https://cdn-icons-png.flaticon.com/24/2111/2111463.png" alt="Instagram" width="24" height="24" />
-              </a>
-              <a href="mailto:contacto@protecsaa.com" style="margin: 0 10px;">
-                <img src="https://cdn-icons-png.flaticon.com/24/561/561127.png" alt="Email" width="24" height="24" />
-              </a>
-            </div>
+              <div style="text-align: center; margin-top: 30px;">
+                <a href="https://www.facebook.com/proteco" style="margin: 0 10px;">
+                  <img src="https://protecsaa.com/icon/fb.png" alt="Facebook" width="24" height="24" />
+                </a>
+                <a href="https://www.instagram.com/protecsaunam/" style="margin: 0 10px;">
+                  <img src="https://protecsaa.com/icon/ig.png" alt="Instagram" width="24" height="24" />
+                </a>
+                <a href="mailto:contacto@protecsaa.com" style="margin: 0 10px;">
+                  <img src="https://protecsaa.com/icon/mail.png" alt="Email" width="24" height="24" />
+                </a>
+              </div>
             <p style="font-size: 12px; color: #aaa; text-align: center; margin-top: 20px;">
               &copy; ${new Date().getFullYear()} PROTECSA. Todos los derechos reservados.
             </p>
