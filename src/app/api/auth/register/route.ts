@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No se pudo crear el usuario.' }, { status: 500 });
     }
 
-    const verifyLink = `${APP_URL}/verifica?token=${token}`;
+    const verifyLink = `${APP_URL}/api/auth/verify?token=${token}`;
     console.log("🔗 Link de verificación:", verifyLink);
 
     const response = await resend.emails.send({
