@@ -4,28 +4,53 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FaUserCircle, FaShoppingCart, FaSignOutAlt, FaUserEdit } from 'react-icons/fa';
-
+import { FaShoppingCart, FaSignOutAlt, FaUserEdit } from 'react-icons/fa';
+import { supabase } from '@/lib/supabase';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string>('/avatar/default.png');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  // Se carga el avatar directamente desde Supabase (la base de datos xd)
+  const loadUserFromSupabase = async () => {
+    const stored = localStorage.getItem('user');
+    const localUser = stored ? JSON.parse(stored) : null;
+
+    if (localUser?.id) {
+      const { data, error } = await supabase
+        .from('User')
+        .select('avatar')
+        .eq('id', localUser.id)
+        .single();
+
+      if (!error && data?.avatar) {
+        setAvatarUrl(`/avatar/${data.avatar}`);
+        localStorage.setItem('user', JSON.stringify({ ...localUser, avatar: data.avatar }));
+      } else {
+        setAvatarUrl(`/avatar/${localUser?.avatar || 'default.png'}`);
+      }
+    }
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
         const parsed = JSON.parse(storedUser);
-        //  Mostramos nombre completo si existe
-        const fullName = `${parsed.nombre || ''} ${parsed.apellido || ''}`.trim();
+        const primerNombre = (parsed.nombre || '').split(' ')[0];
+        const primerApellido = (parsed.apellido || '').split(' ')[0];
+        const fullName = `${primerNombre} ${primerApellido}`.trim();
         setUserName(fullName || parsed.email || 'Usuario');
       } catch {
         setUserName('Usuario');
       }
     }
+
+    loadUserFromSupabase(); // carga avatar actualizado
   }, []);
 
   useEffect(() => {
@@ -81,8 +106,6 @@ export default function Navbar() {
       {/* SESIÓN - DESKTOP */}
       <div className="hidden md:flex items-center space-x-4 relative">
         {userName ? (
-
-
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowMenu(!showMenu)}
@@ -92,7 +115,13 @@ export default function Navbar() {
                   : 'bg-transparent text-white border-white hover:bg-white hover:text-blue-800 hover:shadow-md hover:scale-105'
                 } text-base font-bold`}
             >
-              <FaUserCircle className="text-xl" />
+              <Image
+                src={avatarUrl}
+                alt="Avatar"
+                width={36}
+                height={36}
+                className="rounded-full object-cover"
+              />
               <span>{userName}</span>
             </button>
 
@@ -121,8 +150,6 @@ export default function Navbar() {
                   Cerrar sesión
                 </button>
               </div>
-
-
             )}
           </div>
         ) : (
@@ -154,9 +181,7 @@ export default function Navbar() {
 
       {/* MENÚ MÓVIL */}
       <div
-        className={`absolute top-26 left-0 w-full text-white flex flex-col items-center space-y-4 py-6 md:hidden z-50 transform transition-all duration-300 ease-in-out bg-[length:200%_200%] animate-gradient-cycle ${
-          isOpen ? 'scale-y-100' : 'scale-y-0'
-        }`}
+        className={`absolute top-26 left-0 w-full text-white flex flex-col items-center space-y-4 py-6 md:hidden z-50 transform transition-all duration-300 ease-in-out bg-[length:200%_200%] animate-gradient-cycle ${isOpen ? 'scale-y-100' : 'scale-y-0'}`}
         style={{
           transformOrigin: 'top',
           backgroundImage: `linear-gradient(to right, #003ce5, #4959ff, #E4B045, #E4B045, #003ce5)`,
@@ -182,18 +207,22 @@ export default function Navbar() {
 
         {userName ? (
           <div className="flex flex-col items-center w-full px-6 space-y-4">
-            {/* Contenedor del menú centrado */}
             <div className="flex flex-col items-center w-full max-w-sm space-y-4">
-
-              {/* Nombre del usuario */}
+              {/* Avatar + nombre móvil */}
               <div className="flex flex-col items-center bg-white px-4 py-3 rounded-full shadow-sm w-fit mx-auto text-center space-y-1">
                 <div className="flex items-center gap-2">
-                  <FaUserCircle className="text-blue-800 text-xl" />
+                  <Image
+                    src={avatarUrl}
+                    alt="Avatar"
+                    width={36}
+                    height={36}
+                    className="rounded-full object-cover border-2 border-blue-800"
+                  />
                   <span className="text-blue-800 font-bold text-base sm:text-lg px-3.5">{userName}</span>
                 </div>
               </div>
 
-              {/* Opciones del menú */}
+              {/* Opciones menú móvil */}
               <div className="flex flex-col items-center w-full space-y-3 text-white text-base">
                 <Link
                   href="/perfil"
@@ -203,7 +232,6 @@ export default function Navbar() {
                   <FaUserEdit className="text-lg" />
                   <span>Editar perfil</span>
                 </Link>
-
                 <Link
                   href="/carrito"
                   className="flex items-center gap-2 px-4 py-2 hover:text-yellow-300 transition"
@@ -212,7 +240,6 @@ export default function Navbar() {
                   <FaShoppingCart className="text-lg" />
                   <span>Mi carrito</span>
                 </Link>
-
                 <button
                   onClick={() => {
                     setIsOpen(false);
@@ -220,13 +247,11 @@ export default function Navbar() {
                   }}
                   className="flex items-center gap-2 px-4 py-2 hover:text-yellow-300 transition border border-white-800 rounded-full"
                 >
-                  {/*   <FaSignOutAlt className="text-lg" />   */}
                   <span>Cerrar sesión</span>
                 </button>
               </div>
             </div>
           </div>
-
         ) : (
           <div className="flex flex-col items-center space-y-3">
             <Link
