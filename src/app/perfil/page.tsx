@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import PerfilForm from './components/PerfilForm';
 import CambiarPasswordForm from './components/CambiarPasswordForm';
 import PerfilInfo from './components/PerfilInfo';
+import CarruselAnuncios from '../components/CarruselAnuncios';
 
 export default function PerfilPage() {
   return (

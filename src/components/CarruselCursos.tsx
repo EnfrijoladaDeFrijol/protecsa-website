@@ -16,7 +16,7 @@ export default function CarruselCursos() {
 
   return (
     <section className="py-20 px-6 bg-white relative">
-      <h3 className="text-4xl font-bold text-center text-[#003ce5] mb-12">
+      <h3 className="text-4xl font-bold text-center text-[#1e40af] mb-12 relative after:block after:w-20 after:h-1 after:mx-auto after:mt-3 after:bg-[#eab308]">
         Nuestros Cursos
       </h3>
 

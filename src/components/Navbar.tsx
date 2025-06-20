@@ -109,7 +109,7 @@ export default function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowMenu(!showMenu)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full border transition-all duration-300
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all duration-300
                 ${showMenu
                   ? 'bg-white text-blue-800 border-white shadow-md'
                   : 'bg-transparent text-white border-white hover:bg-white hover:text-blue-800 hover:shadow-md hover:scale-105'
@@ -118,8 +118,8 @@ export default function Navbar() {
               <Image
                 src={avatarUrl}
                 alt="Avatar"
-                width={36}
-                height={36}
+                width={40}
+                height={40}
                 className="rounded-full object-cover"
               />
               <span>{userName}</span>

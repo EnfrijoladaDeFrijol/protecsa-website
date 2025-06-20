@@ -14,7 +14,7 @@ export default function SobreNosotros() {
   }, []);
 
   return (
-    <section className="relative h-[500px] overflow-hidden flex items-center justify-center">
+    <section className="relative h-[500px] overflow-hidden flex items-center justify-center ">
       {/* Imagen con animación crossfade */}
       {fondos.map((src, i) => (
         <div
