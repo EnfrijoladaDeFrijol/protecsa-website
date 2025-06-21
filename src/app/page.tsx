@@ -11,7 +11,8 @@ export default function Home() {
     <>
       <Navbar />
 
-      <main className="flex flex-col gap-y-5">
+      <main className="flex flex-col gap-y-5 max-w-full overflow-x-hidden">
+
         <Hero />
         <CarruselAnuncios />
         <SobreNosotros />
