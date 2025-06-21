@@ -15,13 +15,17 @@ const AVATAR_CATEGORIES: Record<string, { path: string; files: string[] }> = {
     path: '',
     files: ['default.png'],
   },
-  Protecsa: {
+  PROTECSA: {
     path: 'protecsa',
-    files: ['1.png', '2.png'],
+    files: ['1.png', '2.png','3.png', '4.png'],
   },
   Animales: {
     path: 'animales',
     files: ['2.png','3.png','4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png', '11.png'],
+  },
+  Memes: {
+    path: 'memes',
+    files: ['1.png','2.png','3.png'],
   },
 };
 
