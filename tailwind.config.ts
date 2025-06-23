@@ -1,4 +1,3 @@
-// tailwind.config.ts
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -11,6 +10,7 @@ const config: Config = {
       animation: {
         blob: 'blob 7s infinite ease-in-out',
         'gradient-x': 'gradient-x 12s ease infinite',
+        wave: 'wave 8s ease-in-out infinite', 
       },
       keyframes: {
         blob: {
@@ -22,12 +22,14 @@ const config: Config = {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
         },
+        wave: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(-50px)' },
+        },
       },
     },
   },
   plugins: [],
 };
-
-
 
 export default config;

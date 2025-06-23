@@ -71,7 +71,7 @@ export default function ContactoSection() {
           >
             <div className="flex items-center gap-4">
               <FaEnvelope className="text-[#003ce5] text-xl" />
-              <span>contacto@protecsa.mx</span>
+              <span>contacto@protecsaa.com</span>
             </div>
             <div className="flex items-center gap-4">
               <FaPhoneAlt className="text-[#003ce5] text-xl" />

@@ -82,18 +82,58 @@ export default function CarruselAnuncios() {
         {/* Paginación afuera */}
         <div className="custom-pagination flex justify-center gap-2 mt-6"></div>
 
-        {/* Estilos de bullets */}
+        {/* Estilos de bullets mejorados */}
         <style jsx global>{`
           .custom-pagination .swiper-pagination-bullet {
-            background-color: #facc15;
+            background-color: #5d8fff;
             opacity: 0.7;
-            width: 16px;
-            height: 16px;
-            margin: 0 4px !important;
+            width: 10px;   /* Tamaño más pequeño para inactivas */
+            height: 10px;
+            margin: 0 6px !important;
+            transition: all 0.3s ease; /* Transición suave */
+            transform: scale(0.8); /* Escala reducida */
           }
+          
+          .custom-pagination .swiper-pagination-bullet:hover {
+            opacity: 0.9;
+            transform: scale(1.1); /* Pequeño aumento al pasar el cursor */
+          }
+          
           .custom-pagination .swiper-pagination-bullet-active {
             background-color: #003ce5 !important;
             opacity: 1;
+            width: 10px;  /* Tamaño más grande para activa */
+            height: 10px;
+            transform: scale(1.3); /* Escala aumentada */
+            position: relative;
+          }
+          
+          /* Efecto de halo alrededor del bullet activo */
+          .custom-pagination .swiper-pagination-bullet-active::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 90%;
+            border: 2px solid rgba(0, 60, 229, 0.3);
+            animation: pulse 1.5s infinite;
+          }
+          
+          @keyframes pulse {
+            0% {
+              transform: scale(0.8);
+              opacity: 0.8;
+            }
+            50% {
+              transform: scale(1.2);
+              opacity: 0.3;
+            }
+            100% {
+              transform: scale(0.8);
+              opacity: 0.8;
+            }
           }
         `}</style>
       </div>
