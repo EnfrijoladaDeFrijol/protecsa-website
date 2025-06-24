@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -37,13 +36,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth overflow-x-hidden">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen overflow-x-hidden`}>
-
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen overflow-x-hidden`}
+      >
         <AOSInit />
-        
-        <main className="flex-grow">
-          {children}
-        </main>
+
+        <main className="flex-grow">{children}</main>
 
         <Footer />
       </body>

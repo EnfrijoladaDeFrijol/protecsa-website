@@ -2,6 +2,7 @@
 
 import LoginForm from './components/LoginForm';
 
+
 export default function LoginPage() {
   return (
     <main className="relative min-h-screen bg-white flex items-center justify-center overflow-hidden">

@@ -13,6 +13,7 @@ type Usuario = {
   apellido: string;
   email: string;
   avatar: string;
+  rol: string;
 };
 
 export default function PerfilInfo() {
@@ -20,7 +21,6 @@ export default function PerfilInfo() {
   const [copiado, setCopiado] = useState(false);
   const [showAvatars, setShowAvatars] = useState(false);
 
-  // ✅ useEffect actualizado: consulta Supabase
   useEffect(() => {
     const fetchUser = async () => {
       const stored = localStorage.getItem('user');
@@ -29,7 +29,7 @@ export default function PerfilInfo() {
       if (localUser?.id) {
         const { data, error } = await supabase
           .from('User')
-          .select('id, nombre, apellido, email, avatar')
+          .select('id, nombre, apellido, email, avatar, rol')
           .eq('id', localUser.id)
           .single();
 
@@ -72,6 +72,20 @@ export default function PerfilInfo() {
     }
   };
 
+  const getRolEstilo = (rol: string) => {
+    switch (rol.toLowerCase()) {
+      case 'admin':
+      case 'administrador':
+        return 'bg-black text-white font-bold';
+      case 'becario':
+        return 'bg-yellow-400 text-gray-900 font-semibold';
+      case 'estudiante':
+        return 'bg-blue-100 text-blue-800 font-medium';
+      default:
+        return 'bg-gray-100 text-gray-600';
+    }
+  };
+
   if (!user) return null;
 
   return (
@@ -84,7 +98,7 @@ export default function PerfilInfo() {
       {/* Avatar con botón */}
       <div className="relative">
         <Image
-          src={`/avatar/${user.avatar || 'default.png'}`}
+          src={`/avatar/${user.avatar || 'default.png'}?t=${Date.now()}`}
           alt="Avatar"
           width={150}
           height={150}
@@ -99,7 +113,19 @@ export default function PerfilInfo() {
       </div>
 
       {/* Nombre */}
-      <h2 className="text-5xl font-bold text-[#000000]">{user.nombre} {user.apellido}</h2>
+      <h2 className="text-5xl font-bold text-black">{user.nombre} {user.apellido}</h2>
+
+      {/* Rol */}
+      <div className={`px-4 py-1 text-sm rounded-full shadow-sm ${getRolEstilo(user.rol)}`}>
+        {user.rol.charAt(0).toUpperCase() + user.rol.slice(1)}
+      </div>
+
+      {/* Correo */}
+      <div className="bg-white/60 text-[#003ce5] px-4 py-2 rounded-lg shadow-md backdrop-blur-md ring-1 ring-[#003ce5]/10 w-full max-w-sm mx-auto">
+        <span className="font-semibold text-sm block text-center break-all">
+          {user.email}
+        </span>
+      </div>
 
       {/* ID con botón copiar */}
       <div className="flex items-center gap-2 text-gray-600 text-sm break-all">
@@ -112,14 +138,7 @@ export default function PerfilInfo() {
         </button>
       </div>
 
-      {/* Correo */}
-      <div className="bg-white/60 text-[#003ce5] px-4 py-2 rounded-lg shadow-md backdrop-blur-md ring-1 ring-[#003ce5]/10 w-full max-w-sm mx-auto">
-        <span className="font-semibold text-sm block text-center break-all">
-          {user.email}
-        </span>
-      </div>
-
-      {/* Portal para selección de avatar */}
+      {/* Selector de avatar */}
       {showAvatars && (
         <AvatarSelectorPortal
           onClose={() => setShowAvatars(false)}

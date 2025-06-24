@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { supabase } from '@/utils/supabase-browser'; 
 
 export default function LoginForm() {
   const router = useRouter();
@@ -18,39 +19,28 @@ export default function LoginForm() {
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setErrorMsg(data.error || 'Error al iniciar sesión');
+      if (error) {
+        setErrorMsg(error.message);
         return;
       }
 
-      localStorage.setItem('user', JSON.stringify(data.user));
-      console.log('✅ Usuario guardado en localStorage:', data.user);
-
-      router.push('/');
+      console.log('✅ Sesión iniciada:', data.session);
+      router.push('/'); 
     } catch (error) {
-      setErrorMsg('Error del servidor. Intenta más tarde.');
       console.error('Login error:', error);
+      setErrorMsg('Error del servidor. Intenta más tarde.');
     }
   };
 
   return (
     <div className="bg-white/80 border border-white/30 p-10 rounded-3xl shadow-2xl max-w-md w-full space-y-6 text-center">
       <div className="flex justify-center">
-        <Image
-          src="/logo_P.png"
-          alt="Logo PROTECSA"
-          width={80}
-          height={80}
-          className="mb-2"
-        />
+        <Image src="/logo_P.png" alt="Logo PROTECSA" width={80} height={80} className="mb-2" />
       </div>
 
       <h2 className="text-3xl font-extrabold text-[#003ce5] tracking-wide">Iniciar Sesión</h2>
@@ -100,10 +90,7 @@ export default function LoginForm() {
 
       <p className="text-sm text-gray-800">
         ¿Aún no tienes cuenta?{' '}
-        <Link
-          href="/registro"
-          className="text-[#E4B045] font-semibold hover:text-[#c59428] transition"
-        >
+        <Link href="/registro" className="text-[#E4B045] font-semibold hover:text-[#c59428] transition">
           Regístrate aquí
         </Link>
       </p>
