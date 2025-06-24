@@ -16,6 +16,19 @@ type Usuario = {
   rol: string;
 };
 
+const getColorFondoBoton = (rol: string) => {
+  switch (rol.toLowerCase()) {
+    case 'administrador':
+      return 'bg-black hover:bg-gray-800';
+    case 'becario':
+      return 'bg-[#e4b045] hover:bg-yellow-500';
+    case 'estudiante':
+      return 'bg-[#003ce5] hover:bg-blue-600';
+    default:
+      return 'bg-gray-400 hover:bg-gray-500';
+  }
+};
+
 export default function PerfilInfo() {
   const [user, setUser] = useState<Usuario | null>(null);
   const [copiado, setCopiado] = useState(false);
@@ -74,7 +87,6 @@ export default function PerfilInfo() {
 
   const getRolEstilo = (rol: string) => {
     switch (rol.toLowerCase()) {
-      case 'admin':
       case 'administrador':
         return 'bg-black text-white font-bold';
       case 'becario':
@@ -83,6 +95,19 @@ export default function PerfilInfo() {
         return 'bg-blue-100 text-blue-800 font-medium';
       default:
         return 'bg-gray-100 text-gray-600';
+    }
+  };
+
+  const getBordeColor = (rol: string) => {
+    switch (rol.toLowerCase()) {
+      case 'administrador':
+        return 'border-black';
+      case 'becario':
+        return 'border-[#e4b045]';
+      case 'estudiante':
+        return 'border-[#003ce5]';
+      default:
+        return 'border-gray-300';
     }
   };
 
@@ -102,23 +127,27 @@ export default function PerfilInfo() {
           alt="Avatar"
           width={150}
           height={150}
-          className="rounded-full border-4 border-[#003ce5] shadow-lg object-cover"
+          className={`rounded-full shadow-lg object-cover border-4 ${getBordeColor(user.rol)}`}
         />
         <button
           onClick={() => setShowAvatars(true)}
-          className="absolute -bottom-0 -right-0 bg-[#003ce5] text-white rounded-full p-2 hover:bg-blue-600 transition z-10"
+          className={`absolute -bottom-0 -right-0 ${getColorFondoBoton(user.rol)} text-white rounded-full p-2 transition z-10`}
         >
           <Pencil className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Nombre */}
-      <h2 className="text-5xl font-bold text-black">{user.nombre} {user.apellido}</h2>
-
-      {/* Rol */}
-      <div className={`px-4 py-1 text-sm rounded-full shadow-sm ${getRolEstilo(user.rol)}`}>
-        {user.rol.charAt(0).toUpperCase() + user.rol.slice(1)}
+      {/* Rol (con más separación) */}
+      <div className="mt-4">
+        <span className={`inline-block px-4 py-1 text-sm rounded-full shadow-sm ${getRolEstilo(user.rol)}`}>
+          {user.rol.charAt(0).toUpperCase() + user.rol.slice(1)}
+        </span>
       </div>
+
+      {/* Nombre */}
+      <h2 className="text-5xl font-bold text-black mt-2">
+        {user.nombre} {user.apellido}
+      </h2>
 
       {/* Correo */}
       <div className="bg-white/60 text-[#003ce5] px-4 py-2 rounded-lg shadow-md backdrop-blur-md ring-1 ring-[#003ce5]/10 w-full max-w-sm mx-auto">
@@ -127,14 +156,14 @@ export default function PerfilInfo() {
         </span>
       </div>
 
-      {/* ID con botón copiar */}
-      <div className="flex items-center gap-2 text-gray-600 text-sm break-all">
-        <span>{user.id}</span>
+      {/* ID en esquina inferior derecha */}
+      <div className="absolute bottom-4 right-6 flex items-center gap-2 text-gray-500 text-xs">
+        <span className="max-w-[140px] truncate">{user.id}</span>
         <button
           onClick={copiarId}
-          className="text-[#3a3a3a] hover:text-[#4959ff] transition transform hover:scale-110 duration-200 ease-in-out"
+          className="hover:text-[#4959ff] transition transform hover:scale-110 duration-200 ease-in-out"
         >
-          {copiado ? <HiCheck className="w-5 h-5 text-green-500" /> : <HiClipboard className="w-5 h-5" />}
+          {copiado ? <HiCheck className="w-4 h-4 text-green-500" /> : <HiClipboard className="w-4 h-4" />}
         </button>
       </div>
 
