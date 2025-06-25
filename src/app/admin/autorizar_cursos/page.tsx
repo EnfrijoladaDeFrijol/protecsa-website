@@ -52,15 +52,27 @@ export default function AutorizarCursosPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#f7faff] px-6 py-10">
-        <h1 className="text-3xl font-bold text-[#003ce5] mb-8">Cursos pendientes</h1>
-        <div className="space-y-6">
+      <main className="min-h-screen bg-[#e6f0ff] py-10 px-4 flex justify-center items-start">
+        <div className="w-full max-w-7xl bg-white rounded-3xl shadow-xl p-8 space-y-6">
+          <h1 className="text-3xl font-bold text-[#003ce5] mb-4">Cursos por aprobar</h1>
+
           {cursos.length === 0 ? (
-            <p className="text-gray-600">No hay cursos pendientes.</p>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <img
+                src="/animalitos/puppy_soon.png"
+                alt="Perrito descansando"
+                className="w-64 h-auto"
+              />
+              <p className="text-lg text-gray-600">
+                 No hay cursos pendientes por aprobar en este momento.<br />
+                ¡Disfruta el descanso por ahora!
+              </p>
+            </div>
           ) : (
             cursos.map((curso) => (
               <CursoItem key={curso.id} curso={curso} onAutorizar={() => autorizarCurso(curso.id)} />
             ))
+
           )}
         </div>
       </main>

@@ -34,7 +34,7 @@ export default function EditarMaterial({
 
   const subirImagen = async () => {
     if (!imagenFile) {
-      toast.error('Selecciona una imagen primero');
+      toast.error('📸 Selecciona una imagen primero.');
       return;
     }
 
@@ -50,7 +50,7 @@ export default function EditarMaterial({
 
     const result = await res.json();
     if (!res.ok) {
-      toast.error('Error al subir imagen');
+      toast.error('❌ Error al subir la imagen.');
       return;
     }
 
@@ -64,17 +64,17 @@ export default function EditarMaterial({
       .eq('id', cursoId);
 
     if (error) {
-      toast.error('Error al actualizar base de datos');
+      toast.error('⚠️ Imagen cargada, pero no se pudo actualizar la base de datos.');
       return;
     }
 
-    toast.success('Imagen actualizada correctamente ✅');
+    toast.success('✅ Imagen actualizada con éxito.');
     setImagenFile(null);
   };
 
   const subirTemario = async () => {
     if (!temarioFile) {
-      toast.error('Selecciona un PDF primero');
+      toast.error('📄 Selecciona un archivo PDF primero.');
       return;
     }
 
@@ -90,7 +90,7 @@ export default function EditarMaterial({
 
     const result = await res.json();
     if (!res.ok) {
-      toast.error('Error al subir PDF');
+      toast.error('❌ Error al subir el PDF.');
       return;
     }
 
@@ -104,15 +104,14 @@ export default function EditarMaterial({
       .eq('id', cursoId);
 
     if (error) {
-      toast.error('Error al actualizar base de datos');
+      toast.error('⚠️ PDF subido, pero no se pudo guardar en la base de datos.');
       return;
     }
 
-    toast.success('Temario actualizado correctamente ✅');
+    toast.success('📘 Temario actualizado correctamente.');
     setTemarioFile(null);
   };
 
-  // Carga inicial de archivos existentes
   useState(() => {
     const cargarDatosActuales = async () => {
       const { data, error } = await supabase
@@ -130,78 +129,81 @@ export default function EditarMaterial({
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-6">
+      <div className="w-full flex flex-col md:flex-row gap-6">
+        {/* Imagen */}
+        <div className="flex flex-col gap-4 w-full">
+          {imagenActual && (
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Imagen actual:</label>
+              <img
+                src={imagenActual}
+                alt="Imagen del curso"
+                className="w-full rounded shadow"
+              />
+            </div>
+          )}
 
-      {/* Imagen actual */}
-      {imagenActual && (
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Imagen actual:</label>
-          <img
-            src={imagenActual}
-            alt="Imagen del curso"
-            className="w-64 rounded shadow"
-          />
-        </div>
-      )}
-
-      {/* Imagen nueva */}
-      <div className="space-y-1">
-        <label className="text-sm font-medium text-gray-700">Actualizar imagen</label>
-        <input
-          type="file"
-          accept=".jpg,.jpeg,.png"
-          disabled={!editando}
-          onChange={handleImagenSeleccionada}
-          className="w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
-                     file:bg-[#003ce51a] file:text-[#003ce5] hover:file:bg-[#003ce533]"
-        />
-        {imagenFile && (
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-600">{imagenFile.name}</p>
-            <button
-              onClick={subirImagen}
-              className="text-xs bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700"
-            >
-              Confirmar subida
-            </button>
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Actualizar imagen (Puede tardar unos minutos en actualizar)</label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              disabled={!editando}
+              onChange={handleImagenSeleccionada}
+              className="w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
+                         file:bg-[#003ce51a] file:text-[#003ce5] hover:file:bg-[#003ce533]"
+            />
+            {imagenFile && (
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-600 truncate max-w-[60%]">{imagenFile.name}</p>
+                <button
+                  onClick={subirImagen}
+                  className="text-xs bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700"
+                >
+                  Confirmar subida
+                </button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      {/* PDF actual */}
-      {pdfActual && (
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Temario actual (PDF):</label>
-          <iframe
-            src={pdfActual}
-            className="w-full h-64 border border-gray-300 rounded"
-            title="PDF del temario"
-          />
         </div>
-      )}
 
-      {/* Subir nuevo PDF */}
-      <div className="space-y-1">
-        <label className="text-sm font-medium text-gray-700">Actualizar temario (PDF)</label>
-        <input
-          type="file"
-          accept=".pdf"
-          disabled={!editando}
-          onChange={handleTemarioSeleccionado}
-          className="w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
-                     file:bg-[#e4b04533] file:text-[#b58900] hover:file:bg-[#e4b04555]"
-        />
-        {temarioFile && (
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-600">{temarioFile.name}</p>
-            <button
-              onClick={subirTemario}
-              className="text-xs bg-yellow-600 text-white px-3 py-1 rounded-full hover:bg-yellow-700"
-            >
-              Confirmar subida
-            </button>
+        {/* PDF */}
+        <div className="flex flex-col gap-4 w-full">
+          {pdfActual && (
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Temario actual (PDF):</label>
+              <iframe
+                src={pdfActual}
+                className="w-full h-64 border border-gray-300 rounded"
+                title="PDF del temario"
+              />
+            </div>
+          )}
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Actualizar temario (PDF)</label>
+            <input
+              type="file"
+              accept=".pdf"
+              disabled={!editando}
+              onChange={handleTemarioSeleccionado}
+              className="w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
+                         file:bg-[#e4b04533] file:text-[#b58900] hover:file:bg-[#e4b04555]"
+            />
+            {temarioFile && (
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-600 truncate max-w-[60%]">{temarioFile.name}</p>
+                <button
+                  onClick={subirTemario}
+                  className="text-xs bg-yellow-600 text-white px-3 py-1 rounded-full hover:bg-yellow-700"
+                >
+                  Confirmar subida
+                </button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
