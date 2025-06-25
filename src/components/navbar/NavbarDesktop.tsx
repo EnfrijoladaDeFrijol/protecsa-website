@@ -4,6 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaShoppingCart, FaSignOutAlt, FaUserEdit, FaPlusCircle } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
+
 
 interface Props {
   pathname: string;
@@ -87,6 +89,13 @@ export default function NavbarDesktop({
                     Crear curso
                   </Link>
                 )}
+                {userRole === 'Administrador' && (
+                  <Link href="/admin/autorizar_cursos" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-blue-100 text-blue-900 transition text-sm">
+                    <FaCheckCircle className="text-base" />
+                    Autorizar cursos
+                  </Link>
+                )}
+
 
                 <button onClick={handleLogout} className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-red-100 text-red-700 transition text-sm">
                   <FaSignOutAlt className="text-base" />

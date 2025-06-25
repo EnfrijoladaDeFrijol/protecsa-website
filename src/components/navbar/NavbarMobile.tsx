@@ -1,9 +1,10 @@
-// components/navbar/NavbarMobile.tsx
 'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaShoppingCart, FaSignOutAlt, FaUserEdit, FaPlusCircle } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
+
 
 interface Props {
   isOpen: boolean;
@@ -38,7 +39,10 @@ export default function NavbarMobile({
 
       <div
         className={`absolute top-26 left-0 w-full text-white flex flex-col items-center space-y-6 py-6 md:hidden z-50 transform transition-all duration-300 ease-in-out bg-[length:200%_200%] animate-gradient-cycle ${isOpen ? 'scale-y-100' : 'scale-y-0'}`}
-        style={{ transformOrigin: 'top', backgroundImage: `linear-gradient(to right, #003ce5, #4959ff, #d89e29, #d89e29, #003ce5)` }}
+        style={{
+          transformOrigin: 'top',
+          backgroundImage: `linear-gradient(to right, #003ce5, #4959ff, #d89e29, #d89e29, #003ce5)`,
+        }}
       >
         <div className="w-full max-w-sm px-4 py-4 bg-white/10 backdrop-blur-md rounded-2xl shadow-md flex flex-wrap justify-center gap-3">
           {[{ name: 'Inicio', href: '/' }, { name: 'Cursos', href: '/cursos' }, { name: 'Misión', href: '/mision' }, { name: 'Contacto', href: '/contacto' }].map((item) => (
@@ -53,9 +57,9 @@ export default function NavbarMobile({
           ))}
         </div>
 
-        <hr className="w-3/4 border-t border-white/30 my-4" />
+        
 
-        {userName && (
+        {userName ? (
           <div className="w-full max-w-sm px-4 py-4 bg-white/10 backdrop-blur-md rounded-2xl shadow-md flex flex-col items-center space-y-6 text-center">
             <div className="flex items-center justify-center gap-4">
               <Image src={avatarUrl} alt="Avatar" width={56} height={56} className="rounded-full object-cover border-2 border-blue-800 shadow-sm" />
@@ -84,6 +88,17 @@ export default function NavbarMobile({
                   <span>Crear curso</span>
                 </Link>
               )}
+              {userRole === 'Administrador' && (
+                <Link
+                  href="/admin/autorizar_cursos"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/20 transition text-base"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <FaCheckCircle className="text-lg" />
+                  <span>Autorizar cursos</span>
+                </Link>
+              )}
+
 
               <button
                 onClick={() => {
@@ -97,6 +112,26 @@ export default function NavbarMobile({
               </button>
             </div>
           </div>
+        ) : (
+          <div className="flex justify-center gap-4 mt-4">
+            <Link
+              href="/login"
+              className="px-4 py-2 rounded-full border border-white text-white hover:bg-white hover:text-[#003ce5] transition font-semibold text-sm"
+              onClick={() => setIsOpen(false)}
+            >
+              Iniciar sesión
+            </Link>
+
+            <Link
+              href="/registro"
+              className="px-4 py-2 rounded-full bg-white text-[#003ce5] hover:bg-yellow-400 hover:text-white transition font-semibold text-sm"
+              onClick={() => setIsOpen(false)}
+            >
+              Registrarse
+            </Link>
+          </div>
+
+
         )}
       </div>
     </>
