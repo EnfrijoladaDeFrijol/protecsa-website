@@ -1,3 +1,4 @@
+// src/app/cursos/courseData.ts
 export interface Curso {
   slug: string;
   titulo: string;
@@ -5,7 +6,7 @@ export interface Curso {
   imagen: string;
   duracion: string;
   modalidad: string;
-  calificacion: number;
+  calificacion: number; // puede ser decimal (e.g., 4.7)
   precio: number;
   temario: {
     modulo: string;
@@ -14,8 +15,10 @@ export interface Curso {
   opiniones: {
     nombre: string;
     comentario: string;
-    estrellas: number;
+    estrellas: number; // 1..5
   }[];
+  /** Si es false, no se muestra en listados ni detalle */
+  activo?: boolean; // por defecto se asume true si no está definido
 }
 
 export const cursos: Curso[] = [
@@ -41,7 +44,8 @@ export const cursos: Curso[] = [
     opiniones: [
       { nombre: "Ana", comentario: "¡Muy buen curso!", estrellas: 5 },
       { nombre: "Luis", comentario: "Me gustó mucho la parte práctica.", estrellas: 4 }
-    ]
+    ],
+    activo: true
   },
   {
     slug: "python-inteligencia-artificial",
@@ -65,7 +69,8 @@ export const cursos: Curso[] = [
     opiniones: [
       { nombre: "Carlos", comentario: "Muy completo y bien explicado.", estrellas: 5 },
       { nombre: "Marta", comentario: "Ideal para empezar con IA.", estrellas: 5 }
-    ]
+    ],
+    activo: true
   },
   {
     slug: "introduccion-excel",
@@ -89,7 +94,8 @@ export const cursos: Curso[] = [
     opiniones: [
       { nombre: "Sofía", comentario: "Muy útil para la oficina.", estrellas: 4 },
       { nombre: "Andrés", comentario: "Rápido y directo al punto.", estrellas: 4 }
-    ]
+    ],
+    activo: true 
   },
   {
     slug: "introduccion-linux",
@@ -113,58 +119,9 @@ export const cursos: Curso[] = [
     opiniones: [
       { nombre: "Pedro", comentario: "Muy claro para principiantes.", estrellas: 4 },
       { nombre: "Julia", comentario: "Lo recomiendo ampliamente.", estrellas: 5 }
-    ]
-  },
-  {
-    slug: "sexo-competitivo",
-    titulo: "SEXO COMPETITIVO",
-    descripcion: "Descubre cómo despertar tu loba interior con técnicas infalibles de seducción y seguridad total, guiado por el legendario LEOSIGMA.",
-    imagen: "/cursos/leo.jpg",
-    duracion: "1 semana intensiva",
-    modalidad: "Presencial",
-    calificacion: 4.6,
-    precio: 1500,
-    temario: [
-      {
-        modulo: "Módulo 1: Desbloquea tu loba interior",
-        temas: [
-          "Mentalidad ganadora: actitud de loba alfa",
-          "Look, postura y contacto visual magnético",
-          "Psicología de la seguridad irresistible"
-        ]
-      },
-      {
-        modulo: "Módulo 2: Dominio corporal competitivo",
-        temas: [
-          "Lenguaje corporal provocador",
-          "Control del ritmo y respiración estratégica",
-          "Exploración con propósito: manos que conquistan"
-        ]
-      },
-      {
-        modulo: "Módulo 3: Juegos mentales de atracción",
-        temas: [
-          "Frases y silencios que enloquecen",
-          "Control emocional y manejo de tensión",
-          "Creación de un personaje irresistible"
-        ]
-      },
-      {
-        modulo: "Módulo 4: Loba Legendaria - Edición Final",
-        temas: [
-          "Simulación real con retroalimentación de Leo",
-          "Dominancia de escenario y presencia",
-          "Certificación: ¿Eres una loba oficial?"
-        ]
-      }
     ],
-    opiniones: [
-      { nombre: "LeoSigma", comentario: "El curso es tan intenso como efectivo. Si no te aúllan, lo estás haciendo mal. 🐺🔥", estrellas: 5 },
-      { nombre: "Jimena", comentario: "Nunca más volví a ser la misma. Ahora soy la *alfa alfa* de mi círculo. 💋", estrellas: 5 },
-      { nombre: "Carla", comentario: "Conquisté a mi crush en menos de 48 horas. Increíble. Leo es un dios.", estrellas: 5 },
-      { nombre: "Fer", comentario: "Pasé de modo sigilosa a modo loba competitiva en 7 días. RECOMENDADÍSIMO.", estrellas: 5 },
-      { nombre: "Buenas Tardes", comentario: "Esto no es un curso. Es una transformación. 💄🔥", estrellas: 5 },
-      { nombre: "Ingeniero Antonio", comentario: "Leo me lastimó en el proceso, no me gustó", estrellas: 3 }
-    ]
-  }  
+    activo: false
+  }
 ];
+
+export default cursos;
